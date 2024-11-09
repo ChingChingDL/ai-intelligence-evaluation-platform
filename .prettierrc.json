@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": true,
+  "singleQuote": true,
+  "arrowParens": "avoid",
+  "vueIndentScriptAndStyle": false,
+  "vueWrapAttributes": "never",
+  "printWidth": 520,
+  "singleAttributePerLine": true,
+  "rules": {
+    "space-before-function-paren": [
+      "error",
+      "always"
+    ]
+  }
+}

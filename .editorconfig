@@ -1,0 +1,30 @@
+[*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,vue}]
+charset = utf-8
+indent_size = 8
+indent_style = tab
+insert_final_newline = false
+trim_trailing_whitespace = true
+ij_typescript_force_semicolon_style = true
+ij_typescript_use_semicolon_after_statement = true
+ij_typescript_import_prefer_absolute_path = true
+ij_typescript_align_imports = false
+ij_typescript_keep_blank_lines_in_code = unset
+ij_typescript_align_multiline_ternary_operation = false
+ij_typescript_chained_call_dot_on_new_line = false
+ij_any_for_statement_right_paren_on_new_line = false
+ij_any_for_statement_new_line_after_left_paren = false
+ij_typescript_for_statement_new_line_after_left_paren = false
+ij_typescript_parentheses_expression_new_line_after_left_paren = false
+ij_typescript_parentheses_expression_right_paren_on_new_line = false
+ij_html_space_around_equality_in_attribute = false
+
+ij_html_do_not_break_if_inline_tags = false
+ij_html_new_line_after_last_attribute =never
+ij_html_new_line_before_first_attribute = when_multiline
+ij_any_keep_line_breaks = false
+ij_html_keep_line_breaks = false
+ij_typescript_keep_line_breaks = true
+ij_vue_interpolation_wrap = off
+ij_vue_spaces_within_interpolation_expressions = true
+ij_vue_interpolation_new_line_after_start_delimiter = false
+ij_html_attribute_wrap = off
