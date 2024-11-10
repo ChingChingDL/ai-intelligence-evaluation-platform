@@ -14,17 +14,12 @@
 import { RouterView, useRouter } from 'vue-router';
 import BasicLayout from '@/layouts/BasicLayout.vue';
 import { ref } from 'vue';
-import api from '@/api';
 import GlobalHeader from '@/components/GlobalHeader.vue';
 
 const router = useRouter();
 const selectedKey = ref([router.currentRoute.value.path]);
 router.isReady().then(() => {
 	selectedKey.value[0] = router.currentRoute.value.path;
-});
-
-api.postController.listPostByPageUsingPost({}).then(res => {
-	console.log(res);
 });
 </script>
 <style scoped></style>

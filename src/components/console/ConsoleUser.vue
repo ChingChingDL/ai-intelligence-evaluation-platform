@@ -17,10 +17,19 @@
 			/>
 		</template>
 
+		<template #createTime="{ record }">
+			{{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+		</template>
+
+		<template #updateTime="{ record }">
+			{{ dayjs(record.updateTime).format('YYYY-MM-DD HH:mm:ss') }}
+		</template>
+
 		<template #optional="{ record }">
 			<a-space>
 				<a-button
-					type="dangerous"
+					type="primary"
+					status="danger"
 					@click="deleteRecord(record)"
 					>删除
 				</a-button>
@@ -33,6 +42,7 @@
 import { onBeforeMount, ref } from 'vue';
 import { deleteUserUsingPost, listUserByPageUsingPost } from '@/api/userController';
 import { Message } from '@arco-design/web-vue';
+import { dayjs } from '@arco-design/web-vue/es/_utils/date';
 
 const columns = [
 	{
@@ -40,51 +50,54 @@ const columns = [
 		dataIndex: 'id',
 	},
 	{
-		title: 'Account',
+		title: '用户账号',
 		dataIndex: 'userAccount',
 	},
+
 	{
-		title: 'WeChat Open Platform ID',
-		dataIndex: 'unionId',
-	},
-	{
-		title: 'Public Account OpenID',
-		dataIndex: 'mpOpenId',
-	},
-	{
-		title: 'User Nickname',
+		title: '用户昵称',
 		dataIndex: 'userName',
 	},
 	{
-		title: 'User Avatar',
+		title: '用户头像',
 		dataIndex: 'userAvatar',
 		slotName: 'userAvatar',
 	},
 	{
-		title: 'User Profile',
+		title: '用户简介',
 		dataIndex: 'userProfile',
 	},
 	{
-		title: 'User Role',
+		title: '用户权限',
 		dataIndex: 'userRole',
 	},
 	{
-		title: 'Creation Time',
+		title: 'WxUnionId',
+		dataIndex: 'unionId',
+	},
+	{
+		title: 'MpOpenId',
+		dataIndex: 'mpOpenId',
+	},
+	{
+		title: '创建时间',
 		dataIndex: 'createTime',
+		slotName: 'createTime',
 	},
 	{
-		title: 'Update Time',
+		title: '更新时间',
 		dataIndex: 'updateTime',
+		slotName: 'updateTime',
 	},
 	{
-		title: 'Action',
+		title: '操作',
 		dataIndex: 'action',
 		slotName: 'optional',
 	},
 ];
 
-const data = ref([]);
-const pageInfo = ref({
+const data = ref<API.User[]>([]);
+const pageInfo = ref<{ current: number; pageSize: number }>({
 	current: 1,
 	pageSize: 10,
 });
@@ -100,16 +113,18 @@ const loadData = () => {
 	}).then(res => {
 		Message.clear();
 		if (res.data.code === 0) {
-			data.value = res.data.data.records;
-			total.value = res.data.data.total;
-			pageInfo.value.pageSize = res.data.data.pageSize;
-			pageInfo.value.current = res.data.data.current;
+			data.value = res.data.data?.records || [];
+			total.value = res.data.data?.total || 0;
+			pageInfo.value.current = Number.parseInt(res.data.data?.current || 1);
 		} else {
-			Message.error(res.data.message);
+			Message.error(res.data?.message || '加载失败');
 		}
 	});
 };
-const onPageChange = loadData;
+const onPageChange = (current:number)=>{
+	pageInfo.value.current = current;
+	loadData();
+};
 const deleteRecord = (record: API.User) => {
 	deleteUserUsingPost({
 		id: record.id,
@@ -117,7 +132,7 @@ const deleteRecord = (record: API.User) => {
 		if (res.data.code === 0) {
 			loadData();
 		} else {
-			Message.error(res.data.message);
+			Message.error(res.data?.message || '删除失败');
 		}
 	});
 };

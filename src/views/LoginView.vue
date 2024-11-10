@@ -39,35 +39,34 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import { userLoginUserStore } from '@/stores/loginUser';
 import { Message } from '@arco-design/web-vue';
-import { userLoginUsingPost } from '@/api/userController';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const store = userLoginUserStore();
-const form = reactive({
+const form = ref({
 	username: '',
 	password: '',
 	isRead: false,
 });
-const handleSubmit = async () => {
-	if (form.isRead) {
+const handleSubmit = () => {
+	if (form.value.isRead) {
 		Message.loading({
 			duration: 10000,
 			content: 'Login in...',
 		});
-		userLoginUsingPost({ userAccount: form.username, userPassword: form.password }).then(res => {
-			Message.clear();
-			if (res.data.code === 0) {
-				store.setLoginUser(res.data.data);
+		store.login(form.value.username, form.value.password)
+			.then(() => {
+				Message.clear();
 				Message.success('Login successful');
-				router.push(router.currentRoute.value.query.redirect || '/');
-			} else {
-				Message.error(res.data.message);
-			}
-		});
+				router.push(router.currentRoute.value.query?.redirect || '/');
+			})
+			.catch(reason => {
+				Message.clear();
+				Message.error(reason);
+			});
 	} else {
 		Message.info('Please read the manual');
 	}

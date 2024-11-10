@@ -83,6 +83,7 @@ declare namespace API {
     appName?: string;
     appType?: number;
     createTime?: string;
+    id?: number;
     reviewMessage?: string;
     reviewStatus?: number;
     reviewTime?: string;

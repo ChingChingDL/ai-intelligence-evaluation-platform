@@ -1,40 +1,52 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { API } from '@/api/typings.d.ts';
-import { getLoginUserUsingGet } from '@/api/userController';
-import { UserRoleEnum } from '@/enums/UserRoleEnum';
+import { getLoginUserUsingGet, userLoginUsingPost, userLogoutUsingPost } from '@/api/userController';
 
 export const userLoginUserStore = defineStore('counter', () => {
 	const loginUser = ref<API.LoginUserVO>({
 		userName: 'no login',
 	});
+	let isLogin :boolean= false;
 
-	async function asyncLogin() {
-		const loginUserUsingGet = getLoginUserUsingGet();
-		return loginUserUsingGet
-			.then(response => {
-				loginUser.value = response.data;
-				return Promise.resolve(true);
-			})
-			.catch(() => {
-				loginUser.value = { userRole: UserRoleEnum.ANONYMOUS };
-				return Promise.reject(false);
-			});
-	}
-
-
-	function setLoginUser(user: API.LoginUserVO) {
-		loginUser.value = user;
-	}
-
-	async function login() {
-		try {
-			const { data } = await getLoginUserUsingGet();
-			loginUser.value = data;
-		} catch (e) {
-			loginUser.value = { userRole: UserRoleEnum.ANONYMOUS };
+	async function login(account: string, password: string) {
+		if (!(account && password)) {
+			return Promise.reject('账号或密码不能为空');
 		}
+		return userLoginUsingPost({ userAccount: account, userPassword: password }).then(response => {
+			if (response.data.code === 0) {
+				loginUser.value = response.data.data;
+				isLogin = true;
+				return true;
+			} else {
+				return Promise.reject(response.data.message);
+			}
+		});
 	}
 
-	return { loginUser, setLoginUser,asyncLogin, login };
+	async function logout() {
+		userLogoutUsingPost().then(response => {
+			if (response.data.code === 0 && response.data.data) {
+				loginUser.value = {
+					userName: 'no login',
+				};
+				isLogin = false;
+			}
+		});
+	}
+
+	async function loginWithToken() {
+		getLoginUserUsingGet().then(response => {
+			if (response.data.code === 0) {
+				loginUser.value = response.data.data;
+				isLogin = true;
+			}
+		});
+	}
+
+	function checkLogin() {
+		return isLogin;
+	}
+
+	return { loginUser, login, checkLogin,loginWithToken, logout };
 });

@@ -23,14 +23,13 @@
 							<div class="title">Snow Crystal</div>
 						</div>
 					</a-menu-item>
-
 					<router-link
 						:to="item.path"
 						v-for="item in routes.filter(item => item.meta?.hideInMenu!== true)"
 						:key="item.path"
 					>
 						<a-menu-item :key="item.path">
-							{{ item.name }}
+							{{ item.meta.text }}
 						</a-menu-item>
 					</router-link>
 				</a-menu>

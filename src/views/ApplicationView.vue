@@ -13,7 +13,7 @@
 				@menu-item-click="onClickMenuItem"
 			>
 				<a-menu-item
-					v-for="route in consoleRoutes"
+					v-for="route in applicationRoutes"
 					:key="route.name"
 				>
 					<IconCalendar></IconCalendar>
@@ -56,7 +56,7 @@ import { routes } from '@/router/routes';
 
 const router = useRouter();
 
-const consoleRoutes = ref<RouteRecordRaw[]>(routes.find(item => item.name === 'console')?.children || []);
+const applicationRoutes = ref<RouteRecordRaw[]>(routes.find(item => item.name === 'application')?.children || []);
 
 function onClickMenuItem(key: string) {
 	Message.info({ content: `You select ${key}`, showIcon: true });
