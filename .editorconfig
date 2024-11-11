@@ -20,11 +20,11 @@ ij_html_space_around_equality_in_attribute = false
 
 ij_html_do_not_break_if_inline_tags = false
 ij_html_new_line_after_last_attribute =never
-ij_html_new_line_before_first_attribute = when_multiline
+ij_html_new_line_before_first_attribute =never
 ij_any_keep_line_breaks = false
 ij_html_keep_line_breaks = false
 ij_typescript_keep_line_breaks = true
 ij_vue_interpolation_wrap = off
 ij_vue_spaces_within_interpolation_expressions = true
 ij_vue_interpolation_new_line_after_start_delimiter = false
-ij_html_attribute_wrap = off
+ij_html_attribute_wrap =normal

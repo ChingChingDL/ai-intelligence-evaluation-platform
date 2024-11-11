@@ -20,9 +20,23 @@
 				</p>
 				<p>创建时间：{{ application ? dayjs(application.createTime).format('YYYY-MM-DD HH:mm:ss') : '' }}</p>
 				<a-space>
-					<a-button type="primary">开始答题</a-button>
+					<a-button
+						type="primary"
+						@click="router.push(`/application/evaluation/${application.id}`)"
+						>开始答题</a-button
+					>
 					<a-button> 分享应用</a-button>
 					<a-button v-if="iAmOwner"> 编辑应用</a-button>
+					<a-button
+						v-if="iAmOwner"
+						@click="router.push(`/application/question/${application?.id}`)"
+						>设置题目
+					</a-button>
+					<a-button
+						v-if="iAmOwner"
+						@click="router.push(`/application/result/${application?.id}`)"
+						>设置评测结果
+					</a-button>
 					<a-button v-if="iAmOwner"> 删除应用</a-button>
 				</a-space>
 			</a-col>
@@ -35,6 +49,8 @@
 			</a-col>
 		</a-row>
 	</a-card>
+
+	<result-component :app-id="props.id" />
 </template>
 
 <script setup lang="ts">
@@ -43,15 +59,18 @@ import { getAppVoByIdUsingGet } from '@/api/appController';
 import { Message } from '@arco-design/web-vue';
 import { dayjs } from '@arco-design/web-vue/es/_utils/date';
 import { userLoginUserStore } from '@/stores/loginUser';
+import { useRouter } from 'vue-router';
+import ResultComponent from '@/components/application/ResultComponent.vue';
 
 const props = withDefaults(defineProps<{ id: number }>(), {
 	id: 0,
 });
 const loginStore = userLoginUserStore();
 const application = ref<API.AppVO>();
-const iAmOwner: boolean = computed(()=>{
+const iAmOwner: boolean = computed(() => {
 	return loginStore.checkLogin() && loginStore.loginUser.id === application.value?.userId;
 });
+const router = useRouter();
 
 const loadData = () => {
 	Message.loading({

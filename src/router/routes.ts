@@ -48,6 +48,16 @@ export const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/views/ApplicationDetailView.vue'),
 	},
 	{
+		path: '/application/evaluation/:appId',
+		name: 'application.evaluation',
+		props: true,
+		meta: {
+			text: '测评',
+			hideInMenu: true,
+		},
+		component: () => import('@/components/application/EvaluationComponent.vue'),
+	},
+	{
 		path: '/application',
 		name: 'application',
 		meta: {
@@ -57,13 +67,24 @@ export const routes: Array<RouteRecordRaw> = [
 		},
 		children: [
 			{
-				path: 'edit',
-				name: 'application.edit',
+				path: 'list',
+				name: 'application.list',
 				props: true,
 				meta: {
-					text: '编辑应用',
+					text: '我的应用',
+					hideInMenu: false,
 				},
-				component: () => import('@/components/application/ApplicationEdit.vue'),
+				component: () => import('@/components/application/ApplicationList.vue'),
+			},
+			{
+				path: 'result/:appId',
+				name: 'application.result',
+				props: true,
+				meta: {
+					text: '测评结果',
+					hideInMenu: true,
+				},
+				component: () => import('@/components/application/ApplicationResult.vue'),
 			},
 			{
 				path: 'create',
@@ -72,6 +93,16 @@ export const routes: Array<RouteRecordRaw> = [
 					text: '创建应用',
 				},
 				component: () => import('@/components/application/ApplicationCreate.vue'),
+			},
+			{
+				path: 'question/:appId',
+				name: 'application.question',
+				props: true,
+				meta: {
+					text: '题目编辑',
+					hideInMenu: true,
+				},
+				component: () => import('@/components/application/QuestionEdit.vue'),
 			},
 		],
 		component: () => import('@/views/ApplicationView.vue'),

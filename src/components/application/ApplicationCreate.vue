@@ -126,7 +126,6 @@
 			label="Switch"
 			:rules="[{ type: 'boolean', true: true, message: 'must be true' }]"
 		>
-			<a-switch v-model="form.switch" />
 		</a-form-item>
 		<a-form-item>
 			<a-space>
@@ -135,15 +134,14 @@
 					type="primary"
 					>创建
 				</a-button>
-				<a-button @click="$refs.formRef.resetFields()">Reset</a-button>
+				<a-button @click="formRef.resetFields()">Reset</a-button>
 			</a-space>
 		</a-form-item>
 	</a-form>
-	{{ form }}
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { ApplicationScoringStrategy } from '@/enums/ApplicationScoringStrategy';
 import type { ApplicationType } from '@/enums/ApplicationType';
 import { addAppUsingPost } from '@/api/appController';
@@ -157,7 +155,7 @@ const scoringStrategies: EnumValues<typeof ApplicationScoringStrategy>[] = ['CUS
 const applicationTypes: EnumValues<typeof ApplicationType>[] = ['SCORING', 'EVALUATION'];
 
 const router = useRouter();
-
+const formRef = ref();
 const handleSubmit = ({ values, errors }) => {
 	if (errors) {
 		Message.error(`似乎还有东西没填哦(*/ω＼*)`);
@@ -182,8 +180,6 @@ const handleSubmit = ({ values, errors }) => {
 			}
 		});
 	}
-
-	console.log('values:', values, '\nerrors:', errors);
 };
 
 const form = reactive({

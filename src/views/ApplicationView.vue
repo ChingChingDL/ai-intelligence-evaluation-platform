@@ -23,7 +23,7 @@
 				<a-sub-menu key="4">
 					<template #title>
 						<IconCalendar></IconCalendar>
-						Navigation 4
+						详细信息
 					</template>
 					<a-menu-item key="4_1">Menu 1</a-menu-item>
 					<a-menu-item key="4_2">Menu 2</a-menu-item>
@@ -53,10 +53,11 @@ import { IconCalendar, IconCaretLeft, IconCaretRight } from '@arco-design/web-vu
 import { type RouteRecordRaw, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { routes } from '@/router/routes';
+import { listMyAppVoByPageUsingPost } from '@/api/appController';
 
 const router = useRouter();
 
-const applicationRoutes = ref<RouteRecordRaw[]>(routes.find(item => item.name === 'application')?.children || []);
+const applicationRoutes = ref<RouteRecordRaw[]>(routes.find(item => item.name === 'application')?.children?.filter(item=>!item.meta?.hideInMenu ) || []);
 
 function onClickMenuItem(key: string) {
 	Message.info({ content: `You select ${key}`, showIcon: true });
@@ -64,6 +65,19 @@ function onClickMenuItem(key: string) {
 		name: key,
 	});
 }
+
+const loadData = () => {
+	listMyAppVoByPageUsingPost({
+		...pageInfo.value,
+	}).then(response => {
+		if (response.data.code === 0) {
+			data.value = response.data?.data?.records || [];
+			pageInfo.value.total = response.data.data.total;
+		} else {
+			Message.error(`加载失败: ${response.data?.message || '未知错误'}`);
+		}
+	});
+};
 </script>
 
 <style scoped>

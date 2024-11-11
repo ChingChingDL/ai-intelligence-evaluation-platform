@@ -115,7 +115,7 @@ const loadData = () => {
 		if (res.data.code === 0) {
 			data.value = res.data.data?.records || [];
 			total.value = res.data.data?.total || 0;
-			pageInfo.value.current = Number.parseInt(res.data.data?.current || 1);
+			pageInfo.value.current = res.data.data?.current || 1;
 		} else {
 			Message.error(res.data?.message || '加载失败');
 		}
