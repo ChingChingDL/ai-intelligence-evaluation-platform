@@ -58,6 +58,16 @@ export const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/components/application/EvaluationComponent.vue'),
 	},
 	{
+		path:'/application/evaluation/:appId/result/:answerId',
+		name:'application.result.detail',
+		props: true,
+		meta: {
+			text: '测评结果详情',
+			hideInMenu: true,
+		},
+		component:()=> import('@/components/application/EvaluationResult.vue'),
+	},
+	{
 		path: '/application',
 		name: 'application',
 		meta: {

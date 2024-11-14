@@ -1,25 +1,11 @@
 <template>
 	<a-form
 		ref="formRef"
-		:size="form.size"
+		size="large"
 		:model="form"
 		:style="{ width: '600px',userSelect: 'none' }"
 		@submit="handleSubmit"
 	>
-		<a-form-item
-			field="size"
-			label="Form Size"
-		>
-			<a-radio-group
-				v-model="form.size"
-				type="button"
-			>
-				<a-radio value="mini">Mini</a-radio>
-				<a-radio value="small">Small</a-radio>
-				<a-radio value="medium">Medium</a-radio>
-				<a-radio value="large">Large</a-radio>
-			</a-radio-group>
-		</a-form-item>
 		<a-form-item
 			field="name"
 			label="应用名称"
@@ -183,7 +169,6 @@ const handleSubmit = ({ values, errors }) => {
 };
 
 const form = reactive({
-	size: 'medium',
 	name: '',
 	description: '',
 	cover: '',

@@ -1,4 +1,10 @@
 declare namespace API {
+  type AiGenerationQuestionCommand = {
+    appId?: number;
+    optionNumber?: number;
+    questionNumber?: number;
+  };
+
   type App = {
     appDesc?: string;
     appIcon?: string;
@@ -109,6 +115,12 @@ declare namespace API {
   type BaseResponseInt_ = {
     code?: number;
     data?: number;
+    message?: string;
+  };
+
+  type BaseResponseListQuestionDto_ = {
+    code?: number;
+    data?: QuestionDto[];
     message?: string;
   };
 
@@ -240,6 +252,12 @@ declare namespace API {
 
   type DeleteRequest = {
     id?: number;
+  };
+
+  type generateQuestionStreamUsingGETParams = {
+    appId?: number;
+    optionNumber?: number;
+    questionNumber?: number;
   };
 
   type getAppVOByIdUsingGETParams = {
@@ -680,6 +698,10 @@ declare namespace API {
     userId?: number;
   };
 
+  type SseEmitter = {
+    timeout?: number;
+  };
+
   type uploadFileUsingPOSTParams = {
     biz?: string;
   };
@@ -726,6 +748,7 @@ declare namespace API {
   type UserAnswerAddRequest = {
     appId?: number;
     choices?: string[];
+    id?: number;
   };
 
   type UserAnswerEditRequest = {

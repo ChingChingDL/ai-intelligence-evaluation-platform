@@ -2,7 +2,7 @@
 	<a-modal
 		v-model:visible="visible"
 		ok-text="关闭"
-		@cancel="handleCancel"
+		@cancel="visible = false"
 		mask-closable
 		draggable
 		esc-to-close

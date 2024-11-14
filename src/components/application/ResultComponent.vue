@@ -12,7 +12,7 @@
 		}"
 		@page-change="handlePageChange"
 	>
-		<template #item="{ item, index }">
+		<template #item="{ item }">
 			<a-list-item :key="item.id">
 				<a-card>
 					<a-row style="margin-bottom: 16px">
@@ -71,9 +71,9 @@ const loadAnswers = () => {
 		})
 			.then(res => {
 				if (res.data.code === 0) {
-					const records = res.data.data.records as API.UserAnswerVO[];
+					const records = res.data.data?.records as API.UserAnswerVO[] || [];
 					items.value = records.filter(item => item.resultName);
-					pagination.value.total = res.data.data.total;
+					pagination.value.total = res.data.data?.total || 0;
 				} else {
 					Message.error(`加载失败:${res.data.message}`);
 				}
