@@ -2,7 +2,7 @@
 	<a-card hoverable>
 		<template #actions>
 			<span class="icon-hover"> <IconThumbUp /> </span>
-			<span class="icon-hover"> <IconShareInternal /> </span>
+			<span class="icon-hover" @click="handleShare"> <IconShareInternal /> </span>
 			<span class="icon-hover"> <IconMore /> </span>
 		</template>
 		<template #cover>
@@ -39,12 +39,14 @@
 			</template>
 		</a-card-meta>
 	</a-card>
+	<share-modal title="应用分享" :link="shareLink"  ref="shareModalRef" :cover="app.appIcon"/>
 </template>
 
 <script setup lang="ts">
 import { IconMore, IconShareInternal, IconThumbUp } from '@arco-design/web-vue/es/icon';
 import { useRouter } from 'vue-router';
-
+import ShareModal from '@/components/ShareModal.vue';
+import { ref } from 'vue';
 interface Props {
 	app: API.AppVO;
 }
@@ -58,6 +60,17 @@ const props = withDefaults(defineProps<Props>(), {
 		}) as API.AppVO,
 });
 const router = useRouter();
+const shareModalRef = ref();
+const shareLink = `${window.location.origin}/application/detail/${props.app.id}`;
+const handleShare = ()=>{
+	if(shareModalRef.value){
+		shareModalRef.value.showModal();
+	}
+}
+
+
+
+
 </script>
 <style scoped>
 .icon-hover {

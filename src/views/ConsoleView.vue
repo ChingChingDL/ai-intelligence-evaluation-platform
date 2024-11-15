@@ -57,6 +57,7 @@ import { routes } from '@/router/routes';
 const router = useRouter();
 
 const consoleRoutes = ref<RouteRecordRaw[]>(routes.find(item => item.name === 'console')?.children || []);
+// const statisticRouter = ref<RouteRecordRaw[]>(consoleRoutes.value);
 
 function onClickMenuItem(key: string) {
 	Message.info({ content: `You select ${key}`, showIcon: true });

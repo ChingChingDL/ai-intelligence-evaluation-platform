@@ -31,6 +31,11 @@ declare namespace API {
     tags?: string[];
   };
 
+  type AppAnswerCount = {
+    appId?: number;
+    userCount?: number;
+  };
+
   type AppEditRequest = {
     appDesc?: string;
     appIcon?: string;
@@ -118,9 +123,21 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseListAppAnswerCount_ = {
+    code?: number;
+    data?: AppAnswerCount[];
+    message?: string;
+  };
+
   type BaseResponseListQuestionDto_ = {
     code?: number;
     data?: QuestionDto[];
+    message?: string;
+  };
+
+  type BaseResponseListResultAnswerCount_ = {
+    code?: number;
+    data?: ResultAnswerCount[];
     message?: string;
   };
 
@@ -258,6 +275,11 @@ declare namespace API {
     appId?: number;
     optionNumber?: number;
     questionNumber?: number;
+  };
+
+  type getAnswerResultDistributionUsingGETParams = {
+    /** appId */
+    appId: number;
   };
 
   type getAppVOByIdUsingGETParams = {
@@ -604,6 +626,11 @@ declare namespace API {
     updateTime?: string;
     user?: UserVO;
     userId?: number;
+  };
+
+  type ResultAnswerCount = {
+    answerCount?: number;
+    resultName?: string;
   };
 
   type ReviewRequest = {

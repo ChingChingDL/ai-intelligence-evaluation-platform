@@ -58,14 +58,14 @@ export const routes: Array<RouteRecordRaw> = [
 		component: () => import('@/components/application/EvaluationComponent.vue'),
 	},
 	{
-		path:'/application/evaluation/:appId/result/:answerId',
-		name:'application.result.detail',
+		path: '/application/evaluation/:appId/result/:answerId',
+		name: 'application.result.detail',
 		props: true,
 		meta: {
 			text: '测评结果详情',
 			hideInMenu: true,
 		},
-		component:()=> import('@/components/application/EvaluationResult.vue'),
+		component: () => import('@/components/application/EvaluationResult.vue'),
 	},
 	{
 		path: '/application',
@@ -165,6 +165,15 @@ export const routes: Array<RouteRecordRaw> = [
 				components: {
 					default: () => import('@/components/console/ConsoleRole.vue'),
 				},
+			},
+			{
+				path: 'statistic/application-access',
+				name: 'console.statistic.application',
+				props: true,
+				meta: {
+					text: '应用访问统计',
+				},
+				component: () => import('@/components/console/statistic/ApplicationAccessStatistic.vue'),
 			},
 		],
 		component: () => import('@/views/ConsoleView.vue'),

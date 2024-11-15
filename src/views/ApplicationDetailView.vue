@@ -1,5 +1,5 @@
 <template>
-	<a-card>
+	<a-card :style="{maxWidth:'1200px', margin:'0 auto'}">
 		<a-row style="margin-bottom: 16px">
 			<a-col flex="auto">
 				<h2>
@@ -22,10 +22,10 @@
 				<a-space>
 					<a-button
 						type="primary"
-						@click="router.push(`/application/evaluation/${application.id}`)"
+						@click="router.push(`/application/evaluation/${application?.id}`)"
 						>开始答题</a-button
 					>
-					<a-button> 分享应用</a-button>
+					<a-button @click="handleShare"> 分享应用</a-button>
 					<a-button v-if="iAmOwner"> 编辑应用</a-button>
 					<a-button
 						v-if="iAmOwner"
@@ -49,8 +49,8 @@
 			</a-col>
 		</a-row>
 	</a-card>
-
 	<result-component :app-id="props.id" />
+	<share-modal ref="sharingModalRef" :title="application?.appName || '分享应用'" :link="sharingUrl" :cover="application?.appIcon"/>
 </template>
 
 <script setup lang="ts">
@@ -61,17 +61,24 @@ import { dayjs } from '@arco-design/web-vue/es/_utils/date';
 import { userLoginUserStore } from '@/stores/loginUser';
 import { useRouter } from 'vue-router';
 import ResultComponent from '@/components/application/ResultComponent.vue';
+import ShareModal from '@/components/ShareModal.vue';
 
 const props = withDefaults(defineProps<{ id: number }>(), {
 	id: 0,
 });
 const loginStore = userLoginUserStore();
 const application = ref<API.AppVO>();
-const iAmOwner: boolean = computed(() => {
+const iAmOwner = computed(() => {
 	return loginStore.checkLogin() && loginStore.loginUser.id === application.value?.userId;
 });
+const sharingUrl = `${window.location.origin}${window.location.pathname}`
 const router = useRouter();
-
+const sharingModalRef = ref();
+const handleShare = ()=>{
+	if(sharingModalRef.value){
+		sharingModalRef.value.showModal();
+	}
+}
 const loadData = () => {
 	Message.loading({
 		duration: 10000,
