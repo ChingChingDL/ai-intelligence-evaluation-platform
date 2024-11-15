@@ -88,10 +88,9 @@
 			<a-space direction="vertical">
 				<a-input
 					:style="{ width: '320px' }"
-					default-value=""
 					placeholder="审核信息"
 					allow-clear
-					:model-value="reviewMessage"
+					v-model="reviewMessage"
 				/>
 			</a-space>
 		</div>
