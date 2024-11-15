@@ -35,7 +35,7 @@
 			field="cover"
 			label="应用图标"
 			:rules="[
-				{ required: true, message: 'name is required' },
+				{ required: false, message: '' },
 				{ minLength: 5, message: 'must be greater than 5 characters' },
 				{ match: /^https?:\/\/.+/i, message: '请输入正确的URL' },
 			]"
@@ -82,36 +82,6 @@
 					{{ value }}
 				</a-option>
 			</a-select>
-		</a-form-item>
-
-		<a-form-item
-			field="options"
-			label="Options"
-			:rules="[{ type: 'array', minLength: 2, message: 'must select greater than two options' }]"
-		>
-			<a-checkbox-group v-model="form.options">
-				<a-checkbox value="option one">Section One</a-checkbox>
-				<a-checkbox value="option two">Option Two</a-checkbox>
-				<a-checkbox value="option three">Option Three</a-checkbox>
-				<a-checkbox value="option four">Option Four</a-checkbox>
-			</a-checkbox-group>
-		</a-form-item>
-
-		<a-form-item
-			field="radio"
-			label="Radio"
-			:rules="[{ match: /one/, message: 'must select one' }]"
-		>
-			<a-radio-group v-model="form.radio">
-				<a-radio value="radio one">Radio One</a-radio>
-				<a-radio value="radio two">Radio Two</a-radio>
-			</a-radio-group>
-		</a-form-item>
-		<a-form-item
-			field="switch"
-			label="Switch"
-			:rules="[{ type: 'boolean', true: true, message: 'must be true' }]"
-		>
 		</a-form-item>
 		<a-form-item>
 			<a-space>

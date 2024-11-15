@@ -1,5 +1,5 @@
 <template>
-	<a-card :style="{maxWidth:'1200px', margin:'0 auto'}">
+	<a-card :style="{ maxWidth: '1200px', margin: '0 auto' }">
 		<a-row style="margin-bottom: 16px">
 			<a-col flex="auto">
 				<h2>
@@ -23,8 +23,9 @@
 					<a-button
 						type="primary"
 						@click="router.push(`/application/evaluation/${application?.id}`)"
-						>开始答题</a-button
 					>
+						开始答题
+					</a-button>
 					<a-button @click="handleShare"> 分享应用</a-button>
 					<a-button v-if="iAmOwner"> 编辑应用</a-button>
 					<a-button
@@ -50,7 +51,12 @@
 		</a-row>
 	</a-card>
 	<result-component :app-id="props.id" />
-	<share-modal ref="sharingModalRef" :title="application?.appName || '分享应用'" :link="sharingUrl" :cover="application?.appIcon"/>
+	<share-modal
+		ref="sharingModalRef"
+		:title="application?.appName || '分享应用'"
+		:link="sharingUrl"
+		:cover="application?.appIcon"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -71,14 +77,14 @@ const application = ref<API.AppVO>();
 const iAmOwner = computed(() => {
 	return loginStore.checkLogin() && loginStore.loginUser.id === application.value?.userId;
 });
-const sharingUrl = `${window.location.origin}${window.location.pathname}`
+const sharingUrl = `${window.location.origin}${window.location.pathname}`;
 const router = useRouter();
 const sharingModalRef = ref();
-const handleShare = ()=>{
-	if(sharingModalRef.value){
+const handleShare = () => {
+	if (sharingModalRef.value) {
 		sharingModalRef.value.showModal();
 	}
-}
+};
 const loadData = () => {
 	Message.loading({
 		duration: 10000,
@@ -96,19 +102,4 @@ const loadData = () => {
 onBeforeMount(loadData);
 </script>
 
-<style scoped>
-.grid-demo .arco-col {
-	height: 48px;
-	line-height: 48px;
-	color: var(--color-white);
-	text-align: center;
-}
-
-.grid-demo .arco-col:nth-child(2n + 1) {
-	background-color: var(--color-primary-light-4);
-}
-
-.grid-demo .arco-col:nth-child(2n) {
-	background-color: rgba(var(--arcoblue-6), 0.9);
-}
-</style>
+<style scoped></style>
