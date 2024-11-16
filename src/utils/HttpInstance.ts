@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+export const isDev = process.env.NODE_ENV === 'development';
 const httpInstance = axios.create({
-	baseURL: 'http://localhost:8101/',
+	baseURL: isDev? 'http://localhost:8080/' : 'http://120.25.190.38:8080',
 	timeout: 100000000,
 	withCredentials: true,
 });
