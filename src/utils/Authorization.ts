@@ -1,4 +1,3 @@
-import type { API } from '@/api/typings.d.ts';
 import { UserRoleEnum } from '@/enums/UserRoleEnum';
 
 /**

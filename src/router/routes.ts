@@ -152,9 +152,7 @@ export const routes: Array<RouteRecordRaw> = [
 				meta: {
 					text: '用户管理',
 				},
-				components: {
-					default: () => import('@/components/console/ConsoleUser.vue'),
-				},
+				component:() => import('@/components/console/ConsoleUser.vue'),
 			},
 			{
 				path: 'role',

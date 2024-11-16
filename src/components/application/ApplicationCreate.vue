@@ -99,20 +99,21 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { ApplicationScoringStrategy } from '@/enums/ApplicationScoringStrategy';
-import type { ApplicationType } from '@/enums/ApplicationType';
+import  { ApplicationType } from '@/enums/ApplicationType';
 import { addAppUsingPost } from '@/api/appController';
-import { Message } from '@arco-design/web-vue';
+import { Message, type ValidatedError } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
 
 type EnumKeys<T> = Exclude<keyof T, number | symbol>;
 type EnumValues<T> = T[EnumKeys<T>];
 
-const scoringStrategies: EnumValues<typeof ApplicationScoringStrategy>[] = ['CUSTOM', 'AI'];
-const applicationTypes: EnumValues<typeof ApplicationType>[] = ['SCORING', 'EVALUATION'];
+const scoringStrategies: EnumValues<typeof ApplicationScoringStrategy>[] = [ApplicationScoringStrategy.CUSTOM, ApplicationScoringStrategy.AI];
+const applicationTypes: EnumValues<typeof ApplicationType >[] = [ApplicationType.SCORING, ApplicationType.EVALUATION];
 
 const router = useRouter();
 const formRef = ref();
-const handleSubmit = ({ values, errors }) => {
+/*eslint-disable*/
+const handleSubmit = ({ values, errors }:{   values: Record<string, any>;   errors: Record<string, ValidatedError> | undefined; },) => {
 	if (errors) {
 		Message.error(`似乎还有东西没填哦(*/ω＼*)`);
 		return;

@@ -82,7 +82,10 @@
 					>AI 生成题目
 				</a-button>
 			</a-space>
-			<div class="questions-container" ref="questionsContainerRef">
+			<div
+				class="questions-container"
+				ref="questionsContainerRef"
+			>
 				<div
 					class="question"
 					v-for="(question, index) in questions"
@@ -192,9 +195,8 @@
 <script setup lang="ts">
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import { addQuestionUsingPost, listQuestionVoByPageUsingPost, updateQuestionUsingPost } from '@/api/questionController';
-import { Message } from '@arco-design/web-vue';
+import { Message, type ValidatedError } from '@arco-design/web-vue';
 import { useRouter } from 'vue-router';
-// import { generateQuestionUsingPost } from '@/api/aiController';
 
 const props = defineProps<{
 	appId: number;
@@ -260,7 +262,7 @@ const handleModalSubmit = () => {
 		scrollToBottom();
 		console.log(question);
 	};
-	eventSource.onerror = function (event: MessageEvent) {
+	eventSource.onerror = function (event:Event) {
 		Message.clear();
 		if (event.eventPhase === EventSource.CLOSED) {
 			Message.success(`生成完毕`);
@@ -287,8 +289,7 @@ const handleModalSubmit = () => {
 	// 	.catch(reason => Message.error(`操作失败：${reason}`));
 };
 
-const  scrollToBottom = ()=> {
-
+const scrollToBottom = () => {
 	if (questionsContainerRef.value) {
 		questionsContainerRef.value.scrollTop = questionsContainerRef.value.scrollHeight;
 	}
@@ -318,7 +319,8 @@ const handleOptionAddAfter = (question: API.QuestionDto, index: number) => {
 const handleOptionDelete = (question: API.QuestionDto, index: number) => {
 	question.options?.splice(index, 1);
 };
-const handleSubmit = ({ values, errors }) => {
+/*eslint-disable*/
+const handleSubmit = ({ values, errors }: {   values: Record<string, any>;   errors: Record<string, ValidatedError> | undefined; },) => {
 	if (errors) {
 		Message.error(`似乎还有东西没填哦(*/ω＼*)`);
 		return;
@@ -359,13 +361,12 @@ const handleSubmit = ({ values, errors }) => {
 };
 onBeforeMount(loadQuestions);
 
-onMounted(()=>{
+onMounted(() => {
 	window.addEventListener('resize', scrollToBottom);
 });
-onUnmounted(()=>{
+onUnmounted(() => {
 	window.removeEventListener('resize', scrollToBottom);
 });
-
 </script>
 
 <style scoped>
@@ -376,6 +377,7 @@ onUnmounted(()=>{
 	scroll-snap-align: start;
 	scroll-snap-type: y mandatory;
 	transition: all 0.5s ease-in-out;
+
 	.question {
 		scroll-snap-align: start;
 		scroll-snap-stop: always;

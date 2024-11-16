@@ -38,16 +38,15 @@ import { IconSearch } from '@arco-design/web-vue/es/icon';
 import {onBeforeMount, ref} from 'vue';
 import ApplicationCard from '@/components/application/ApplicationCard.vue';
 import { listAppVoByPageUsingPost} from '@/api/appController';
-import { Message } from '@arco-design/web-vue';
+import { Message, type PaginationProps } from '@arco-design/web-vue';
 import {ApplicationReviewStatus} from "@/enums/ApplicationReviewStatus";
 
 const searchText = ref<string>('');
 const dataSource = ref<API.AppVO[]>([]);
 
-const paginationProps = ref({
+const paginationProps = ref<PaginationProps>({
 	defaultPageSize: 12,
 	current: 1,
-	pageSizeOptions: ['12', '24', '36'],
 	pageSize: 12,
 	total: dataSource.value.length,
 });
@@ -65,7 +64,7 @@ const loadData = () => {
 		Message.clear();
 		if (response.data.code == 0) {
 			dataSource.value = response.data.data?.records || [];
-			paginationProps.value.total = Number.parseInt(response.data.data.total);
+			paginationProps.value.total =response.data.data?.total || 0;
 		}else{
 			Message.error(`加载失败:${response.data?.message || '未知原因'}`);
                 }

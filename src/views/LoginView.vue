@@ -61,11 +61,12 @@ const handleSubmit = () => {
 			.then(() => {
 				Message.clear();
 				Message.success('Login successful');
-				router.push(router.currentRoute.value.query?.redirect || '/');
+				const red = router.currentRoute.value.query?.redirect?[0] : '/';
+				router.push({ path: red as string });
 			})
 			.catch(reason => {
 				Message.clear();
-				Message.error(reason);
+				Message.error(`操作失败: ${reason?reason:'未知错误'}`);
 			});
 	} else {
 		Message.info('Please read the manual');

@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { API } from '@/api/typings.d.ts';
 import { getLoginUserUsingGet, userLoginUsingPost, userLogoutUsingPost } from '@/api/userController';
 
 export const userLoginUserStore = defineStore('counter', () => {
@@ -15,7 +14,7 @@ export const userLoginUserStore = defineStore('counter', () => {
 		}
 		return userLoginUsingPost({ userAccount: account, userPassword: password }).then(response => {
 			if (response.data.code === 0) {
-				loginUser.value = response.data.data;
+				loginUser.value = response.data?.data || {};
 				isLogin = true;
 				return true;
 			} else {
@@ -38,7 +37,7 @@ export const userLoginUserStore = defineStore('counter', () => {
 	async function loginWithToken() {
 		getLoginUserUsingGet().then(response => {
 			if (response.data.code === 0) {
-				loginUser.value = response.data.data;
+				loginUser.value = response.data?.data || {};
 				isLogin = true;
 			}
 		});

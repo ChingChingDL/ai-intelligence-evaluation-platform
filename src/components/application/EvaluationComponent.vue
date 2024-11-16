@@ -5,7 +5,7 @@
 			<p>
 				{{ app.appDesc }}
 			</p>
-			<h2 style="margin-bottom: 32px">{{ questions.at(currentQuestionNumber - 1)?.title }}</h2>
+			<h2 style="margin-bottom: 32px">{{ questions[currentQuestionNumber - 1]?.title || ''}}</h2>
 			<div>
 				<a-radio-group
 					direction="vertical"
@@ -48,11 +48,6 @@ import { addUserAnswerUsingPost } from '@/api/userAnswerController';
 import {useRouter} from 'vue-router';
 import { getIdentifierUsingGet } from '@/api/identifierController';
 
-interface Option {
-	label: string;
-	value: string;
-	disabled: boolean;
-}
 
 const props = defineProps<{ appId: number }>();
 const answers = ref<string[]>([]);
@@ -63,10 +58,10 @@ const currentAnswer = ref<string>('');
 const app = ref<API.AppVO>({});
 const identifier = ref<number>();
 const questions = ref<API.QuestionDto[]>([]);
-const currentQuestionOptions: Option[] = computed(() => {
-	return questions.value.at(currentQuestionNumber.value - 1)?.options?.map(option => ({
+const currentQuestionOptions = computed(() => {
+	return questions.value[currentQuestionNumber.value - 1]?.options?.map(option => ({
 		label: `${option.key}、 ${option.value}`,
-		value: option.value,
+		value: option?.value || 0 as number,
 	}));
 });
 
@@ -91,7 +86,7 @@ const loadData = async () => {
 			)
 			.then(res => {
 				if (res.data.code === 0) {
-					questions.value = res.data.data?.records?.at(0)?.questionContent || [];
+					questions.value = res.data.data?.records ? res.data.data.records[0].questionContent as API.QuestionDto[] : [];
 				} else {
 					return Promise.reject(`题目加载失败-${res.data?.message || '未知错误'}`);
 				}

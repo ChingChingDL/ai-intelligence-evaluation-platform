@@ -1,4 +1,9 @@
 {
+  "compilerOptions": {
+    "target": "ES6",  // or "ES2022" if you want to compile to ES2022
+    "lib": ["DOM", "ES2022"],  // include ES2022 or later
+    "types": ["node"]
+  },
   "files": [],
   "references": [
     {

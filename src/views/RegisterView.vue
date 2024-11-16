@@ -75,7 +75,7 @@ const handleSubmit = async () => {
 				Message.success('注册成功');
 				router.push('login');
 			} else {
-				Message.error(res.data.message);
+				Message.error(res.data?.message || '注册失败');
 			}
 		});
 	} else {

@@ -27,7 +27,7 @@
     "@arco-design/web-vue": "^2.56.2",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.16.11",
+    "@types/node": "^20.17.6",
     "@umijs/openapi": "^1.13.0",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vitest/eslint-plugin": "1.1.7",

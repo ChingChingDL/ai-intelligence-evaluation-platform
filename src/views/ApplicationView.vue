@@ -53,7 +53,7 @@ import { IconCalendar, IconCaretLeft, IconCaretRight } from '@arco-design/web-vu
 import { type RouteRecordRaw, useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { routes } from '@/router/routes';
-import { listMyAppVoByPageUsingPost } from '@/api/appController';
+// import { listMyAppVoByPageUsingPost } from '@/api/appController';
 
 const router = useRouter();
 
@@ -66,18 +66,18 @@ function onClickMenuItem(key: string) {
 	});
 }
 
-const loadData = () => {
-	listMyAppVoByPageUsingPost({
-		...pageInfo.value,
-	}).then(response => {
-		if (response.data.code === 0) {
-			data.value = response.data?.data?.records || [];
-			pageInfo.value.total = response.data.data.total;
-		} else {
-			Message.error(`加载失败: ${response.data?.message || '未知错误'}`);
-		}
-	});
-};
+// const loadData = () => {
+// 	listMyAppVoByPageUsingPost({
+// 		...pageInfo.value,
+// 	}).then(response => {
+// 		if (response.data.code === 0) {
+// 			data.value = response.data?.data?.records || [];
+// 			pageInfo.value.total = response.data.data.total;
+// 		} else {
+// 			Message.error(`加载失败: ${response.data?.message || '未知错误'}`);
+// 		}
+// 	});
+// };
 </script>
 
 <style scoped>

@@ -161,7 +161,7 @@
 
 <script setup lang="ts">
 import { h, onBeforeMount, ref } from 'vue';
-import { Message } from '@arco-design/web-vue';
+import { Message, type TableColumnData, type ValidatedError } from '@arco-design/web-vue';
 import { addScoringResultUsingPost, editScoringResultUsingPost, listScoringResultVoByPageUsingPost } from '@/api/scoringResultController';
 import { dayjs } from '@arco-design/web-vue/es/_utils/date';
 import { IconFolderAdd, IconSearch } from '@arco-design/web-vue/es/icon';
@@ -169,7 +169,7 @@ import { IconFolderAdd, IconSearch } from '@arco-design/web-vue/es/icon';
 const props = defineProps<{
 	appId: number;
 }>();
-const columns = [
+const columns: TableColumnData[] = [
 	{
 		title: '结果名称',
 		dataIndex: 'resultName',
@@ -227,7 +227,7 @@ const pageInfo = ref<{ current: number; pageSize: number; total: number }>({
 });
 
 const data = ref<API.ScoringResultVO[]>([]);
-const formSize = ref('large');
+const formSize = ref<'large' | 'small' | 'mini' | 'medium' | undefined>('large');
 const formRef = ref();
 const form = ref<API.ScoringResultVO>({
 	resultDesc: '',
@@ -249,8 +249,8 @@ const loadData = () => {
 			sortOrder: 'descend',
 		}).then(response => {
 			if (response.data.code === 0) {
-				data.value = response.data.data.records;
-				pageInfo.value.total = response.data.data.total;
+				data.value = (response.data.data?.records as API.ScoringResultVO[]) || [];
+				pageInfo.value.total = response.data.data?.total || 0;
 			} else {
 				Message.error(`加载失败：${response.data?.message || '未知错误'}`);
 			}
@@ -269,7 +269,7 @@ const submitForm = async () => {
 				Message.success('修改成功');
 				return Promise.resolve(form.value?.id);
 			} else {
-				return Promise.reject(response.data.data?.message || '未知错误');
+				return Promise.reject(response.data.data || '未知错误');
 			}
 		});
 	} else {
@@ -283,12 +283,14 @@ const submitForm = async () => {
 				Message.success('提交成功');
 				return Promise.resolve(response.data.data);
 			} else {
-				return Promise.reject(response.data.data?.message || '未知错误');
+				return Promise.reject(response.data.data || '未知错误');
 			}
 		});
 	}
 };
-const handleSubmit = ({ errors }) => {
+
+/* eslint-disable */
+const handleSubmit = ({ errors }:{   values: Record<string, any>;   errors: Record<string, ValidatedError> | undefined; },) => {
 	if (errors) {
 		Message.error(`似乎还有东西没填哦(*/ω＼*)`);
 		return;
@@ -298,8 +300,12 @@ const handleSubmit = ({ errors }) => {
 			content: '请稍等( ‵▽′)ψ',
 		});
 		submitForm()
-			.then(setTimeout(loadData, 200))
-			.then((visible.value = false))
+			.then(() => {
+				setTimeout(loadData, 200);
+			})
+			.then(() => {
+				visible.value = false;
+			})
 			.catch(reason => {
 				Message.error(`操作失败:${reason}`);
 			});
@@ -319,6 +325,6 @@ const handleCreate = () => {
 	formSubmitButtonText.value = '创建';
 	visible.value = true;
 };
-
+const handleDelete = (record: API.ScoringResultVO) => {};
 onBeforeMount(loadData);
 </script>

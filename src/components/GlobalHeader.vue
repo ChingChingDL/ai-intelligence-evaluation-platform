@@ -29,7 +29,7 @@
 						:key="item.path"
 					>
 						<a-menu-item :key="item.path">
-							{{ item.meta.text }}
+							{{ item.meta?.text || '' }}
 						</a-menu-item>
 					</router-link>
 				</a-menu>

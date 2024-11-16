@@ -97,31 +97,32 @@
 </template>
 
 <script setup lang="ts">
-import { h, onBeforeMount, ref } from 'vue';
-import { IconRobot, IconSearch, IconUser } from '@arco-design/web-vue/es/icon';
+import { onBeforeMount, ref } from 'vue';
+import { IconRobot, IconUser } from '@arco-design/web-vue/es/icon';
 import { listMyAppVoByPageUsingPost } from '@/api/appController';
 import { ApplicationReviewStatus } from '@/enums/ApplicationReviewStatus';
 import { dayjs } from '@arco-design/web-vue/es/_utils/date';
 import { ApplicationType } from '@/enums/ApplicationType';
 import { ApplicationScoringStrategy } from '@/enums/ApplicationScoringStrategy';
-import { Message } from '@arco-design/web-vue';
-import {useRouter} from 'vue-router';
+import { Message, type TableColumnData } from '@arco-design/web-vue';
+import { useRouter } from 'vue-router';
+
 const router = useRouter();
-const columns = [
+const columns: TableColumnData[] = [
 	{
 		title: '应用名称',
 		dataIndex: 'appName',
-		filterable: {
-			filter: (value, record) => record.name.includes(value),
-			slotName: 'name-filter',
-			icon: () => h(IconSearch),
-		},
+		// filterable: {
+		// 	filter: (value, record) => record.name.includes(value),
+		// 	slotName: 'name-filter',
+		// 	icon: () => h(IconSearch),
+		// },
 		width: 180,
 	},
 	{
 		title: '描述',
 		dataIndex: 'appDesc',
-		width: 100
+		width: 100,
 	},
 	{
 		title: '封面',
@@ -138,13 +139,13 @@ const columns = [
 	{
 		title: '审核信息',
 		dataIndex: 'reviewMessage',
-		width: 100
+		width: 100,
 	},
 	{
 		title: '审核状态',
 		dataIndex: 'reviewStatus',
 		slotName: 'reviewStatus',
-		width: 100
+		width: 100,
 	},
 	{
 		title: '评分策略',
@@ -182,7 +183,7 @@ const columns = [
 		width: 200,
 	},
 ];
-const data = ref<API.AppVO>([]);
+const data = ref<API.AppVO[]>([]);
 const pageInfo = ref<{ current: number; pageSize: number; total: number }>({
 	current: 1,
 	pageSize: 10,
@@ -195,7 +196,7 @@ const loadData = () => {
 	}).then(response => {
 		if (response.data.code === 0) {
 			data.value = response.data?.data?.records || [];
-			pageInfo.value.total = response.data.data.total;
+			pageInfo.value.total = response.data.data?.total || 0;
 		} else {
 			Message.error(`加载失败: ${response.data?.message || '未知错误'}`);
 		}
@@ -205,22 +206,11 @@ const handlePageChange = (current: number) => {
 	pageInfo.value.current = current;
 	loadData();
 };
-
+const handleDelete = (id: number) => {
+	console.log(id);
+};
 
 onBeforeMount(loadData);
 </script>
 
-<style>
-.custom-filter {
-	padding: 20px;
-	background: var(--color-bg-5);
-	border: 1px solid var(--color-neutral-3);
-	border-radius: var(--border-radius-medium);
-	box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
-}
-
-.custom-filter-footer {
-	display: flex;
-	justify-content: space-between;
-}
-</style>
+<style></style>

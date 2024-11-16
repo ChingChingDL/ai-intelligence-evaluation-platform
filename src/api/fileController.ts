@@ -1,4 +1,3 @@
-// @ts-ignore
 /* eslint-disable */
 import request from '@/utils/httpInstance';
 
@@ -38,7 +37,7 @@ export async function uploadFileUsingPost(
       ...params,
     },
     data: formData,
-    requestType: 'form',
+    // requestType: 'form',
     ...(options || {}),
   });
 }
